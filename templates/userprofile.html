@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Hello this is user profile page</h2>
+<h4>Hello {{ user }}</h4>
+<br />
+<a
+  href="{% url 'pass_change' %}"
+  style="
+    background-color: blue;
+    color: white;
+    padding: 4px;
+    margin-bottom: 10px;
+  "
+  >Change Password</a
+>
+{% if messages %} {% for m in messages %}
+<small {% if m.tags %} class="{{ m.tags }}" {% endif %}>{{m}}</small>
+{% endfor %} {% endif %}
+<h1>Change User Info</h1>
+<div class="form-container">
+  <br />
+  <form method="post" novalidate>
+    {% csrf_token %} {% for fm in forms %} {{fm.label_tag}} {{fm}}
+    <br />
+    {{fm.errors |striptags}} {% endfor %}
+    <button type="submit" class="submit-button">Change Profile Info</button>
+  </form>
+</div>
+{% endblock %}

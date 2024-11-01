@@ -1,0 +1,78 @@
+{% extends 'base.html' %} 
+{% block content %} 
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/card.css' %}" />
+<link rel="stylesheet" href="{% static 'css/search.css' %}" />
+<h1>All Events</h1>
+<form method="get" action="{% url 'home' %}">
+  <input type="text" name="search" placeholder="Search by name, date (e.g., 'Nov', '2024', '1'), or location" value="{{ search_query }}">
+
+  <select name="category">
+      <option value="">All Categories</option>
+      <option value="conference" {% if selected_category == "conference" %}selected{% endif %}>Conference</option>
+      <option value="concert" {% if selected_category == "concert" %}selected{% endif %}>Concert</option>
+      <option value="workshop" {% if selected_category == "workshop" %}selected{% endif %}>Workshop</option>
+  </select>
+  <button type="submit">Search</button>
+</form>
+
+
+
+<div class="event-container">
+  {% if events %}
+    {% for event in events %}
+      <div class="event-card">
+        <h2>{{ event.name }}</h2>
+        {% comment %} <p>{{ event.description }}</p> {% endcomment %}
+        <p>
+          <span class="description-preview">
+            {{ event.description|truncatewords:50 }}
+          </span>
+          <span class="description-full" style="display:none;">
+            {{ event.description }}
+          </span>
+          <a href="javascript:void(0);" onclick="toggleDescription(this)" class="toggle-btn">Show More</a>
+        </p>
+
+        <p>Location: {{ event.location }}</p>
+        <p>Date: {{ event.date }}</p>
+        <p>Capacity: {{ event.capacity }}</p>
+        <p>Category: {{ event.category }}</p>
+
+        {% if user.is_authenticated %}
+        {% if event.id in booked_events %}
+            <span class="booked-status btn-book">Booked</span>
+        {% elif event.booking_set.count >= event.capacity %}
+            <span class="booked-status btn-book">Fully Booked</span>
+        {% else %}
+            <a href="{% url 'book_event' event.id %}" class="btn-book">Book Now</a>
+        {% endif %}
+    {% else %}
+        <a href="{% url 'login' %}" class="btn-book">Login to Book</a>
+    {% endif %}
+    
+      </div>
+    {% endfor %}
+  {% else %}
+    <h4>No events added</h4>
+  {% endif %}
+</div>
+
+
+<script>
+  function toggleDescription(button) {
+    const preview = button.previousElementSibling.previousElementSibling;
+    const fullText = button.previousElementSibling;
+    
+    if (fullText.style.display === "none") {
+      preview.style.display = "none";
+      fullText.style.display = "inline";
+      button.textContent = "Show Less";
+    } else {
+      preview.style.display = "inline";
+      fullText.style.display = "none";
+      button.textContent = "Show More";
+    }
+  }
+</script>
+{% endblock %}

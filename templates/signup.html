@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %} {% load static %} <br />
+<br />{% if messages %} {% for m in messages %}
+<h2>User create successfully</h2>
+<small {% if m.tags %} class="{{ m.tags }}" {% endif %}>{{m}}</small>
+{% endfor %} {% endif %}
+
+<h1>Hello this is signup Form</h1>
+<div class="form-container">
+  <h1>Sign Up</h1>
+  <form method="post" novalidate>
+    {% csrf_token %} {% for fm in forms %} {{fm.label_tag}} {{fm}}
+    <br />
+    {{fm.errors |striptags}} {% endfor %}
+    <button type="submit" class="submit-button">User Signup</button>
+  </form>
+  <small>Already Have an accoutn <a href="{% url 'login' %}">Login</a> </small>
+</div>
+
+{% endblock %}

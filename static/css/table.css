@@ -1,0 +1,54 @@
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.event-table th,
+.event-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.event-table th {
+  background-color: #f2f2f2;
+}
+
+.event-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.event-table tr:hover {
+  background-color: #eaeaea;
+}
+
+.event-table a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.event-table a:hover {
+  text-decoration: underline;
+}
+
+.event-table button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.edit {
+  background-color: gold;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.event-table button:hover {
+  background-color: #c82333; /* Darker shade on hover */
+}
